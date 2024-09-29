@@ -1,0 +1,7 @@
+libusb1==3.1.0
+ndeflib==0.3.3
+nfcpy==1.0.4
+py-acr122u==2.3.0
+pyDes==2.0.1
+pyscard==2.0.10
+pyserial==3.5
