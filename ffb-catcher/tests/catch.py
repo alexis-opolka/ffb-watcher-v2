@@ -1,15 +1,16 @@
 # This script is used to get all the card UIDs then sort them out to assure we're able to have
 # a finite and unique collection of UIDs.
-import sys; print('Python %s on %s' % (sys.version, sys.platform))
-sys.path.extend(['C:\\Users\\alexi\\Documents\\depots\\ffb-Watcher\\apps\\ffb-catcher'])
-
-from py_acr122u.nfc import Reader
-from os import get_terminal_size
-from libs.fs import path_exists
-from py_acr122u.error import InstructionFailed, NoCommunication
-from smartcard.Exceptions import CardConnectionException
-from contextlib import redirect_stderr
 import io
+from contextlib import redirect_stderr
+from py_acr122u.error import InstructionFailed, NoCommunication
+from os import get_terminal_size, system as syscmd
+from py_acr122u.nfc import Reader
+from typing import Union
+import sys
+
+print('Python %s on %s' % (sys.version, sys.platform))
+# sys.path.extend(['C:\\Users\\alexi\\Documents\\depots\\ffb-Watcher\\apps\\ffb-catcher'])
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Function definition
@@ -22,6 +23,11 @@ def cut_term_x(cutting_char: str = "-") -> None:
     print("\n")
     print(cutting_char * termX)
     print("\n")
+
+def openFFBWatcher(uid: Union[tuple, list]) -> None:
+    UID = [str(_uid) for _uid in uid]
+    sUID = "".join(UID)
+    print(f"Opening for UID: {sUID}")
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Scripting
@@ -38,7 +44,8 @@ except OSError:
 listening = True
 uids = []
 ready_to_remove = False     # Variable to control when to remove the card
-already_raised_keyerror = False     # Variable to control if we already raised the KeyError exception
+# Variable to control if we already raised the KeyError exception
+already_raised_keyerror = False
 
 print("Register and sort script, those are the following steps to do:")
 print("\t- Scan card one by one, look at the terminal for instructions")
@@ -54,14 +61,12 @@ with redirect_stderr(io.StringIO()) as f:
         try:
             reader = Reader()
             state = reader.instantiate_reader()
-            # reader.set_timeout(0xFF)
-            # print(f"[INFO]: State: {state[1]}")
 
             if not ready_to_remove:
                 reader.connect()
                 card_uid = reader.get_uid()
-                uids.append(card_uid)
-                print("Adding new card {}".format(card_uid))
+                print(f"Adding new card {card_uid}")
+                openFFBWatcher(card_uid)
                 ready_to_remove = True
 
             if ready_to_remove and not already_raised_keyerror:
@@ -86,7 +91,8 @@ with redirect_stderr(io.StringIO()) as f:
             pass
 
         except InstructionFailed:
-            print(f"[WARNING]: Was currently executing some instructions on the card!")
+            print(
+                f"[WARNING]: Was currently executing some instructions on the card!")
 
         except AttributeError:
             pass
@@ -94,34 +100,3 @@ with redirect_stderr(io.StringIO()) as f:
         except KeyboardInterrupt:
             listening = False
             print("Ending listening, now sorting data...")
-
-cut_term_x()
-
-
-known_uids: list[str] = []
-duplicated_uids: dict[str: int] = {}
-
-print("Writing all UIDs in the same time to a file to be sure not to lose one")
-with open(path_exists("./.temp/uids.log"), "wt", encoding="utf-8") as fout:
-
-    for uid in uids:
-        uid_str = "".join([str(uid_char) for uid_char in uid])
-        fout.write(uid_str + "\n")
-
-        if uid_str in known_uids:
-            if uid_str not in duplicated_uids.keys():
-                duplicated_uids.update({
-                    uid_str: 1
-                })
-            else:
-                duplicated_uids[uid_str] += 1
-
-# We're doing the sum of all duplicated entries
-duplicated_keys = len(duplicated_uids.keys())
-duplicated_entries = sum(duplicated_uids.values())
-
-cut_term_x()
-
-print(f"After checking each registered UIDs, we have encountered {duplicated_keys} duplicated UIDs for a total of {duplicated_entries} entries!")
-
-cut_term_x()
