@@ -29,6 +29,9 @@ def openFFBWatcher(uid: Union[tuple, list]) -> None:
     sUID = "".join(UID)
     print(f"Opening for UID: {sUID}")
 
+    if sys.platform == "win32":
+        syscmd(f'Start-Process "C:\Program Files\Mozilla Firefox\firefox.exe" -argumentList "{ffbURL}"')
+
 # ----------------------------------------------------------------------------------------------------------------------
 # Scripting
 # ----------------------------------------------------------------------------------------------------------------------
