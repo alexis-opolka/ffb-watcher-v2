@@ -4,7 +4,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from 'next/navigation';
 import { InfluxDB } from '@influxdata/influxdb-client';
-import { url, token, org, bucket } from '../../../env.mjs';
+
+
+import { url, token, org, bucket } from '$/env.mjs';
 
 import MetricsContent from "./metricsContent";
 

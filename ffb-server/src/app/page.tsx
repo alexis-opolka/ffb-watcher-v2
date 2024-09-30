@@ -1,30 +1,22 @@
-"use client"
 
-var document = null;
+import styles from "./page.module.sass"
+import {NavOption} from "@/components/Navigation"
 
-import styles from './page.module.css'
+export default function Home(){
 
-// Bootstrap CSS
-import "bootstrap/dist/css/bootstrap.min.css";
+  return(
+    <main className={`${styles.main} ${styles.noYOverflow}`}>
+      <h1> FFB-Watcher Web Client</h1>
 
-import { useEffect } from 'react';
+      <nav className={`${styles.flex} ${styles.centered} ${styles.mainDiv}`}>
+        <NavOption target={"/profile"}>
+          Créer ou voir profil
+        </NavOption>
+        <NavOption target={"/tickets"}>
+          Enregistrer des tickets
+        </NavOption>
+      </nav>
 
-import ProfileContent from './components/profileContent';
-
-export default function Home() {
-
-  useEffect(() => {
-    // Bootstrap Bundle JS
-    require("bootstrap/dist/js/bootstrap.bundle.min.js")
-  }, [])
-
-  return (
-    <main className={styles.main} style={{backgroundColor: "#0a0a0a", color: "#fff"}}>
-      <h1> FFB-Watcher Next.js Client</h1>
-
-      <div className={styles.center}>
-        <ProfileContent />
-      </div>
     </main>
   )
 }

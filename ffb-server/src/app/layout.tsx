@@ -1,5 +1,6 @@
-import './globals.css'
+import'./globals.sass';
 import { Inter } from 'next/font/google'
+import BootstrapHandler from '@/components/bootstrapHandler'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,8 +15,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className='FFB-Watcher-Root'>
+      <body className={`${inter.className} FFB-Watcher-Body`}>
+
+        <BootstrapHandler>
+          {children}
+        </BootstrapHandler>
+
+      </body>
     </html>
   )
 }

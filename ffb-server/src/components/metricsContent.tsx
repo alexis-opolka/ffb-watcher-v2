@@ -2,10 +2,12 @@
 
 import { useState, ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
+
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSearchParams } from 'next/navigation';
 import { InfluxDB, Point } from '@influxdata/influxdb-client';
-import { url, token, org, bucket } from '../../../env.mjs';
+
+import { url, token, org, bucket } from '$/env.mjs';
 
 export default function MetricsContent() {
 

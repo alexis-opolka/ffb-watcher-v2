@@ -1,0 +1,36 @@
+@use "./globals.sass" as g
+
+.main
+  text-align: center
+  padding: 20px
+  font-size: 15px
+
+  background-color: g.$primary-bg-color
+  color: g.$primary-font-color
+
+  h1
+    font-size: 50px
+
+.mainDiv
+  width: 30%
+  height: 50%
+  padding: 15px
+
+  border: 1px solid #00000000
+  border-radius: 5px
+
+  background-color: g.$secondary-bg-color
+
+
+
+
+.flex
+  display: flex
+
+.centered
+
+  flex-direction: row
+
+  // Works if the current div or its parent has the .flex attribute
+  align-items: center
+  justify-content: center
