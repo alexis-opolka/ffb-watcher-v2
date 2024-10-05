@@ -1,11 +1,20 @@
+import BootStrapComponentWithTitle from "./bootstrapComponents";
 
 
-export default function NavMenu(){
+export default function NavMenu({
+  className,
+  children
+}:{
+  className: string,
+  children: React.ReactNode
+}){
 
   return(
-    <div>
-      Hello World
-    </div>
+    <nav>
+      <BootStrapComponentWithTitle title="Navigation" headerLevel={2}>
+        {children}
+      </BootStrapComponentWithTitle>
+    </nav>
   )
 }
 
@@ -20,8 +29,10 @@ export function NavOption({
   const normalizedTargetLink = target instanceof URL ? target.href : target;
 
   return (
-    <a href={normalizedTargetLink}>
-      {children}
-    </a>
+    <li>
+      <a href={normalizedTargetLink}>
+        {children}
+      </a>
+    </li>
   )
 }

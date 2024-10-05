@@ -1,0 +1,26 @@
+{
+  "cards": [
+    {
+      "UID": "1D2D92B6011080",
+      "formation": "",
+      "name": "Pierre",
+      "surname": "Dupont",
+      "tickets": [2, 3, 5, 11, 12, 13, 15, 16, 18]
+    },
+    {
+      "UID": "1D2E92B6011080",
+      "formation": "",
+      "name": "Paul",
+      "surname": "Durand",
+      "tickets": [2, 4, 6, 9, 11, 12, 14, 15, 17, 18]
+    },
+    {
+      "UID": "1D2F92B6011080",
+      "formation": "",
+      "name": "Jacques",
+      "surname": "Dubois",
+      "tickets": [2, 6, 7, 8, 9, 12, 14, 15, 16, 18]
+    },
+  ],
+  "size": 3
+}

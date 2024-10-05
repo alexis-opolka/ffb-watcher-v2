@@ -1,6 +1,6 @@
 
 import styles from "./page.module.sass"
-import {NavOption} from "@/components/Navigation"
+import NavMenu, {NavOption} from "@/components/Navigation"
 
 export default function Home(){
 
@@ -8,15 +8,19 @@ export default function Home(){
     <main className={`${styles.main} ${styles.noYOverflow}`}>
       <h1> FFB-Watcher Web Client</h1>
 
-      <nav className={`${styles.flex} ${styles.centered} ${styles.mainDiv}`}>
-        <NavOption target={"/profile"}>
-          Créer ou voir profil
-        </NavOption>
-        <NavOption target={"/tickets"}>
-          Enregistrer des tickets
-        </NavOption>
-      </nav>
-
+      <div className={`${styles.centered} ${styles.flex}`}>
+        <NavMenu className={`${styles.flex} ${styles.centered} ${styles.mainDiv}`}>
+          <NavOption target={"/profile"}>
+            Créer ou voir profil
+          </NavOption>
+          <NavOption target={"/tickets"}>
+            Enregistrer des tickets
+          </NavOption>
+          <NavOption target={"/tombola/index.html"}>
+            Tirage de la tombola
+          </NavOption>
+        </NavMenu>
+      </div>
     </main>
   )
 }

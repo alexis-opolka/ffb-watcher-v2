@@ -1,12 +1,11 @@
 "use client"
 
-import { useState } from "react";
+import { useState, lazy } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from 'next/navigation';
 import { InfluxDB } from '@influxdata/influxdb-client';
 
-
-import { url, token, org, bucket } from '$/env.mjs';
+import {env, url, token, bucket, org} from "$/env.mjs";
 
 import MetricsContent from "./metricsContent";
 
@@ -25,7 +24,7 @@ export default function ProfileContent(){
             <div>You&apos;re {status}</div>
           </div>
         ): (
-          <></>
+          <div></div>
         )}
 
         <div className="mx-2 my-2 card">
@@ -37,47 +36,49 @@ export default function ProfileContent(){
           </div>
         </div>
       </div>
-
-      <MetricsContent />
-
     </div>
   )
 }
 
-const queryApi = new InfluxDB({url, token}).getQueryApi(org);
-const fluxAsyncQuery = async (rfidUID: any, phoneSetter: any, emailSetter: any, nameSetter: any, surnameSetter: any) => {
+let queryApi: any;
+let fluxAsyncQuery: any;
 
-  const fluxQuery = `from(bucket: "${bucket}")
-      |> range(start: -1d, stop: now())
-      |> filter(fn: (r) => r["_measurement"] == "${rfidUID}")
-      |> yield(name: "mean")`;
+if (env !== null) {
+  queryApi = new InfluxDB({url, token}).getQueryApi(org);
+  fluxAsyncQuery = async (rfidUID: any, phoneSetter: any, emailSetter: any, nameSetter: any, surnameSetter: any) => {
 
-  console.log("We're creating a request to InfluxDB");
+    const fluxQuery = `from(bucket: "${bucket}")
+        |> range(start: -1d, stop: now())
+        |> filter(fn: (r) => r["_measurement"] == "${rfidUID}")
+        |> yield(name: "mean")`;
 
-  for await (const {values, tableMeta} of queryApi.iterateRows(fluxQuery)) {
-    const o = tableMeta.toObject(values);
-    console.log("Received data:", o);
+    console.log("We're creating a request to InfluxDB");
 
-    if (o._field === "ffb-watcher"){
-      if (o.name != undefined) {
-        nameSetter(o.name);
-      }
+    for await (const {values, tableMeta} of queryApi.iterateRows(fluxQuery)) {
+      const o = tableMeta.toObject(values);
+      console.log("Received data:", o);
 
-      if (o.surname != undefined) {
-        surnameSetter(o.surname);
-      }
+      if (o._field === "ffb-watcher"){
+        if (o.name != undefined) {
+          nameSetter(o.name);
+        }
 
-      if (o.email != undefined) {
-        emailSetter(o.email);
-      }
+        if (o.surname != undefined) {
+          surnameSetter(o.surname);
+        }
 
-      if (o.phoneNumber != undefined) {
-        phoneSetter(o.phoneNumber);
+        if (o.email != undefined) {
+          emailSetter(o.email);
+        }
+
+        if (o.phoneNumber != undefined) {
+          phoneSetter(o.phoneNumber);
+        }
       }
     }
-
   }
 }
+
 
 function ProfileForm(){
   const {register, handleSubmit} = useForm();
@@ -126,7 +127,7 @@ function ProfileForm(){
   }
 
   return(
-    <>
+    <div>
       <div className="my-2 mx-2 flex flex-column align-self-center justify-content-start flex-grow-1 flex-fill">
         <span className="fs-4">Card ID: </span>
         {rfidUID ? (
@@ -221,8 +222,8 @@ function ProfileForm(){
         <h5 className="text-start">Recap:</h5> <br />
 
         We&apos;re currently running {userPhoneNumber ? 'the Festival of Fantastic of Béziers' : 'nothing'}. <br />
-        We have the card of {userSurname} {userName}.
+        We have the card of {userSurname ? userSurname + " " + userName : 'no one'}.
       </div>
-    </>
+    </div>
   )
 }

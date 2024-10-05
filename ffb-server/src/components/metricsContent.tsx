@@ -123,37 +123,16 @@ function ProfileForm() {
           ) : (
             <span className="fs-4 fw-bold text-danger">N/A</span>
           )}
-          <div className="form-row">
-            <div className="form-group">
-              <label className="mr-2 p-2 fs-4">Number of Tickets: </label>
-              <input name="numberOfTickets" type="number" placeholder={"Indicate the number of tickets"} min={1} max={40} className="btn dropdown-toggle fs-5" style={{border: "0.5px solid black"}} value={numberOfTickets ? numberOfTickets : ""} onChange={onNumberChange} />
-              <button type="button" className="btn btn-success m-lg-2 mr-1 p-2" onClick={() => {
-
-                const tempTickets = [];
-
-                console.log("Tickets:", numberOfTickets)
-
-                numberOfTickets ? numberOfTickets : setNumberOfTickets(0)
-
-                if (numberOfTickets) {
-                  for (let i = 0; i < numberOfTickets; i++) {
-                    tempTickets.push(i)
-                  }
-                }
-
-                setTicketsNumber(tempTickets);
-              }}>Set Tickets</button>
-            </div>
-          </div>
         </div>
-        {ticketsNumber.map(i => (
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40].map(i => (
           <div key={i} className="list-group list-group-flush">
             <div className="list-group-item">
-              <h5 className="card-title">Ticket {i + 1}</h5>
+              <h5 className="card-title">Ticket {i}</h5>
               <div className="form-row">
                 <div className="form-group col-8">
                   <label className="m-lg-1">Stand</label>
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40].map(j => (
+
                     <span key={j} className="m-lg-2">
                       <label htmlFor={`${j}`}> {j} </label>
                       <input {...register(`tickets-${i}`, {required: true})} type={"radio"} key={j} className="btn dropdown-toggle border-black fs-2 m-lg-1" name={`tickets-${i}`} value={`${j}`} onSelect={() => {
