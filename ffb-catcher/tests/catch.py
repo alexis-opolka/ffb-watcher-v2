@@ -9,7 +9,6 @@ from typing import Union
 import sys
 
 print('Python %s on %s' % (sys.version, sys.platform))
-# sys.path.extend(['C:\\Users\\alexi\\Documents\\depots\\ffb-Watcher\\apps\\ffb-catcher'])
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -27,10 +26,11 @@ def cut_term_x(cutting_char: str = "-") -> None:
 def openFFBWatcher(uid: Union[tuple, list]) -> None:
     UID = [str(_uid) for _uid in uid]
     sUID = "".join(UID)
+    URL = f"http://10.248.0.209:3000/?cardID={sUID}"
     print(f"Opening for UID: {sUID}")
 
     if sys.platform == "win32":
-        syscmd(f'Start-Process "C:\Program Files\Mozilla Firefox\firefox.exe" -argumentList "{ffbURL}"')
+        syscmd(f'pwsh .\launch.ps1')
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Scripting
