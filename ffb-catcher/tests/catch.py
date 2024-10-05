@@ -30,7 +30,7 @@ def openFFBWatcher(uid: Union[tuple, list]) -> None:
     print(f"Opening for UID: {sUID}")
 
     if sys.platform == "win32":
-        syscmd(f'pwsh .\launch.ps1')
+        syscmd(f'pwsh .\launch.ps1 {URL}')
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Scripting
